@@ -11,7 +11,7 @@ namespace _7071Group.Models
         public string? JobTitle { get; set; }
         public string? EmploymentType { get; set; } 
         public decimal SalaryRate { get; set; } 
-        public int ReportsTo { get; set; } // FK
+        public int? ReportsTo { get; set; } // FK
 
     }
 }
