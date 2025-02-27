@@ -1,0 +1,38 @@
+name: CI Build and Test
+
+on:
+  push:
+    branches:
+      - main
+      - test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up .NET (assuming your project is in .NET)
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '9.0'
+
+      # Step 3: Restore project dependencies
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Step 4: Build the project
+      - name: Build project
+        run: dotnet build --configuration Release
+
+      # Step 5: Run unit tests
+      - name: Run unit tests
+        run: dotnet test --configuration Release
+
+      # Step 6: Publish build artifacts
+      - name: Publish build artifacts
+        run: dotnet publish --configuration Release --output ./publish
