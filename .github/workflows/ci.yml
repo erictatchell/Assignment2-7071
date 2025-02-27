@@ -49,32 +49,23 @@ jobs:
           path: ./publish
 
   selenium:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check if the PR was merged
-      - name: Check PR merge
-        run: |
-         if [ "${{ github.event.pull_request.merged }}" == "true" ]; then
-           echo "Merge detected, running Selenium tests..."
-         else
-           echo "PR was not merged. Ending workflow."
-           exit 0
-         fi
-
-      # Step 2: Download the publish artifact from the build job
+      # Step 1: Download the publish artifact from the build job
       - name: Download published artifacts
         uses: actions/download-artifact@v4
         with:
           name: publish
 
-      # Step 3: Set up Python (assuming Python for Selenium tests)
+      # Step 2: Set up Python (assuming Python for Selenium tests)
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      # Step 4: Install dependencies and WebDriver (e.g., chromedriver)
+      # Step 3: Install dependencies and WebDriver (e.g., chromedriver)
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
@@ -84,7 +75,7 @@ jobs:
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
 
-      # Step 5: Run Selenium tests
+      # Step 4: Run Selenium tests
       - name: Run Selenium tests
         run: |
           echo "Running Selenium tests..."
