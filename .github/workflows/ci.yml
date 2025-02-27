@@ -43,7 +43,7 @@ jobs:
 
       # Step 7: Upload the published artifacts as an artifact
       - name: Upload publish directory as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: publish
           path: ./publish
@@ -64,7 +64,7 @@ jobs:
 
       # Step 2: Download the publish artifact from the build job
       - name: Download published artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: publish
 
