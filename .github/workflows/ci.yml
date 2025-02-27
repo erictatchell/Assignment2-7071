@@ -17,11 +17,11 @@ jobs:
     steps:
       # Step 1: Check out the repository code
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # Step 2: Set up .NET (assuming your project is in .NET)
       - name: Set up .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0'
 
@@ -43,7 +43,7 @@ jobs:
 
       # Step 7: Upload the published artifacts as an artifact
       - name: Upload publish directory as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: publish
           path: ./publish
@@ -64,13 +64,13 @@ jobs:
 
       # Step 2: Download the publish artifact from the build job
       - name: Download published artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: publish
 
       # Step 3: Set up Python (assuming Python for Selenium tests)
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
