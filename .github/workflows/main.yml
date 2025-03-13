@@ -34,7 +34,7 @@ jobs:
       - name: Start the MVC app
         run: dotnet run --project 7071Group/7071Group.csproj & # Ensure correct path
         env:
-          ASPNETCORE_URLS: http://localhost:5000
+          ASPNETCORE_URLS: http://localhost:5023
 
       - name: Run Selenium UI Tests
         run: dotnet test --filter FullyQualifiedName~Tests.ClientViewTests
