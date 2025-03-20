@@ -75,7 +75,13 @@ namespace UITests
         public void ReadService()
         {
             // Arrange
-            _testService = CreateTestService(1, "Test Service", 100, true);
+            int testServiceId = 1;
+            if (_context!.Services.Any())
+            {
+                testServiceId = _context.Services.OrderBy(s => s.ServiceID).Last().ServiceID + 1;
+            }
+
+            _testService = CreateTestService(testServiceId, "Test Service", 100, true);
             _context!.Services.Add(_testService);
             _context.SaveChanges();
             // Navigate to the service details page
@@ -88,19 +94,39 @@ namespace UITests
         public void UpdateService()
         {
             // Arrange
-            _testService = CreateTestService(1, "Test Service", 100, true);
+            int testServiceId = 1;
+            if (_context!.Services.Any())
+            {
+                testServiceId = _context.Services.OrderBy(s => s.ServiceID).Last().ServiceID + 1;
+            }
+
+            _testService = CreateTestService(testServiceId, "Test Service", 100, true);
             _context!.Services.Add(_testService);
             _context.SaveChanges();
+
+            // Act
             // Navigate to the edit service page
             _driver!.Navigate().GoToUrl($"{_baseUrl}/Service/Edit/{_testService.ServiceID}");
+
             // Fill in the form
-            _driver.FindElement(By.Id("ServiceName")).Clear();
-            _driver.FindElement(By.Id("ServiceName")).SendKeys("Updated Service");
-            _driver.FindElement(By.Id("Rate")).Clear();
-            _driver.FindElement(By.Id("Rate")).SendKeys("200");
-            _driver.FindElement(By.Id("RequiresCertification")).Click();
+            var serviceNameInput = _driver.FindElement(By.Id("ServiceName"));
+            serviceNameInput.Clear();
+            serviceNameInput.SendKeys("Updated Service");
+
+            var rateInput = _driver.FindElement(By.Id("Rate"));
+            rateInput.Clear();
+            rateInput.SendKeys("200");
+
+            var requiresCertificationCheckbox = _driver.FindElement(By.Id("RequiresCertification"));
+            if (!requiresCertificationCheckbox.Selected)
+            {
+                requiresCertificationCheckbox.Click();
+            }
+
             // Submit the form
             _driver.FindElement(By.XPath("//input[@type='submit']")).Click();
+
+            // Assert
             Assert.Pass();
         }
 
@@ -108,7 +134,13 @@ namespace UITests
         public void DeleteService()
         {
             // Arrange
-            _testService = CreateTestService(1, "Test Service", 100, true);
+            int testServiceId = 1;
+            if (_context!.Services.Any())
+            {
+                testServiceId = _context.Services.OrderBy(s => s.ServiceID).Last().ServiceID + 1;
+            }
+
+            _testService = CreateTestService(testServiceId, "Test Service", 100, true);
             _context!.Services.Add(_testService);
             _context.SaveChanges();
             // Navigate to the delete service page
